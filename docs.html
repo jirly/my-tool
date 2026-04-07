@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用文档 - 你的工具站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+        .prose h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; color: #1f2937; }
+        .prose h2 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+        .prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1rem 0 0.5rem; color: #4b5563; }
+        .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+        .prose ul, .prose ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .prose li { margin-bottom: 0.5rem; color: #4b5563; }
+        .prose code { background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; color: #dc2626; }
+        .prose pre { background: #1f2937; color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+        .prose pre code { background: none; padding: 0; color: inherit; }
+        .prose blockquote { border-left: 4px solid #667eea; padding-left: 1rem; margin: 1rem 0; color: #6b7280; font-style: italic; }
+        .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+        .prose th { background: #f9fafb; font-weight: 600; }
+        .prose img { max-width: 100%; border-radius: 0.5rem; margin: 1rem 0; }
+        .prose a { color: #667eea; text-decoration: underline; }
+        .prose .tip { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.25rem; margin: 1rem 0; }
+        .prose .warning { background: #fee2e2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0.25rem; margin: 1rem 0; }
+        .prose .success { background: #d1fae5; border-left: 4px solid #10b981; padding: 1rem; border-radius: 0.25rem; margin: 1rem 0; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-xl font-bold">你的工具站</span>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">首页</a>
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">我的工具</a>
+                    <a href="docs.html" class="text-gray-900 font-medium">使用文档</a>
+                    <a href="guide.html" class="text-gray-600 hover:text-gray-900">经验分享</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- 左侧目录 -->
+            <aside class="md:col-span-1">
+                <div class="bg-white rounded-xl shadow p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-4">目录</h3>
+                    <nav id="toc" class="space-y-2 text-sm">
+                        <!-- 目录将自动生成 -->
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- 右侧内容 -->
+            <div class="md:col-span-3">
+                <div class="bg-white rounded-xl shadow p-8">
+                    <div id="loading" class="text-center py-12">
+                        <span class="text-4xl animate-pulse">📖</span>
+                        <p class="text-gray-500 mt-4">加载文档中...</p>
+                    </div>
+                    <div id="content" class="hidden prose max-w-none"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p class="text-center text-gray-500">© 2026 你的工具站。All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 使用文档 Markdown 内容
+        const docsMarkdown = `
+# 使用文档
+
+欢迎使用你的工具站！本文档将帮助你快速上手所有工具。
+
+## 目录
+
+1. [快速开始](#快速开始)
+2. [工具列表](#工具列表)
+3. [会员说明](#会员说明)
+4. [常见问题](#常见问题)
+
+---
+
+## 快速开始
+
+### 第一步：浏览工具
+
+访问 [首页](index.html) 浏览所有可用工具。工具按卡片形式展示，每个卡片包含：
+
+- 工具名称和图标
+- 简短描述
+- 类型标签（免费/会员免费/单独购买）
+- 分类标签
+
+### 第二步：查看详情
+
+点击任意工具卡片上的 **"查看详情"** 按钮，会跳转到：
+
+- **文档详情页**：了解工具的详细功能和使用方法
+- **视频演示页**：观看工具的使用演示视频
+
+> 💡 **提示**：查看详情是随机跳转的，多试几次可以看到不同的内容！
+
+### 第三步：开始使用
+
+<div class="success">
+
+**免费工具**：直接使用，无需任何操作
+
+**会员工具**：需要开通会员后才能使用
+
+**单独购买**：可以单独购买该工具的使用权
+
+</div>
+
+---
+
+## 工具列表
+
+### 免费工具
+
+| 工具名称 | 功能描述 |
+|----------|----------|
+| 简历评估助手 | AI 驱动的简历智能评估 |
+| Pencil 设计规范 | 可下载的设计规范模板 |
+| 微信自动回复机器人 | 智能回复消息 |
+| 微信 ClawBot 玩法集合 | 微信里与 AI 交互的各种玩法 |
+
+### 会员工具
+
+| 工具名称 | 功能描述 |
+|----------|----------|
+| 简历批量分析 | 批量解析本地简历，调用 AI 做人岗匹配 |
+| 扣子 API 指令集 | 影刀 RPA 流程中调用扣子工作流 |
+| 扣子插件开发工作流 | 全自动开发扣子插件并同步到网页端 |
+
+<div class="tip">
+
+**开通会员仅需 ¥99/年**，折合每天不到 3 毛钱！
+
+</div>
+
+---
+
+## 会员说明
+
+### 会员权益
+
+开通会员后，你可以享受以下权益：
+
+1. **解锁全部会员工具** - 无限使用所有标有"会员免费"的工具
+2. **优先体验新功能** - 新工具上线第一时间免费使用
+3. **专属客服支持** - 工作日 9:00-18:00 在线答疑
+4. **持续更新** - 每周新增工具，会员免费使用
+
+### 如何开通
+
+1. 点击页面右上角的 **"加入会员"** 按钮
+2. 选择支付方式（微信/支付宝）
+3. 扫码支付 ¥99
+4. 支付成功后自动开通
+
+### 会员有效期
+
+会员有效期为 **365 天**，从支付成功之日起计算。
+
+<div class="warning">
+
+**注意**：虚拟商品不支持退款，请谨慎购买。
+
+</div>
+
+---
+
+## 常见问题
+
+### 账号相关
+
+**Q: 需要注册账号吗？**
+
+A: 目前使用支付标识（微信 OpenID）作为会员凭证，无需额外注册。
+
+**Q: 换设备后会员还在吗？**
+
+A: 会员数据与支付账号绑定，使用同一支付账号即可。
+
+### 工具使用
+
+**Q: 工具如何使用？**
+
+A: 点击工具卡片 → 查看详情 → 按指引操作。部分工具需要配置 API Key。
+
+**Q: 遇到技术问题怎么办？**
+
+A: 联系客服微信：your-wechat-id，工作日 9:00-18:00 在线。
+
+### 支付相关
+
+**Q: 支持哪些支付方式？**
+
+A: 目前支持微信支付和支付宝。
+
+**Q: 可以开发票吗？**
+
+A: 暂未开通发票服务，如有需求请联系客服。
+
+---
+
+## 技术支持
+
+如有任何问题，请通过以下方式联系我们：
+
+- **客服微信**：your-wechat-id
+- **服务时间**：工作日 9:00-18:00
+- **响应时间**：一般在 24 小时内回复
+
+---
+
+*最后更新时间：2026 年 4 月 7 日*
+`;
+
+        // 加载文档
+        function loadDocs() {
+            const content = document.getElementById('content');
+            content.innerHTML = marked.parse(docsMarkdown);
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+
+            // 生成目录
+            generateTOC();
+        }
+
+        // 生成目录
+        function generateTOC() {
+            const toc = document.getElementById('toc');
+            const headings = document.querySelectorAll('#content h2');
+
+            toc.innerHTML = Array.from(headings).map(h => {
+                const id = h.textContent.trim().replace(/\\s+/g, '-');
+                h.id = id;
+                return \`<a href="#\${id}" class="block py-1 text-gray-600 hover:text-purple-600 transition">\${h.textContent}</a>\`;
+            }).join('');
+        }
+
+        // 页面加载时执行
+        loadDocs();
+    </script>
+</body>
+</html>

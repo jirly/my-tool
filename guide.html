@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>经验分享 - 你的工具站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+        .prose h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; color: #1f2937; }
+        .prose h2 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+        .prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1rem 0 0.5rem; color: #4b5563; }
+        .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
+        .prose ul, .prose ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .prose li { margin-bottom: 0.5rem; color: #4b5563; }
+        .prose code { background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; color: #dc2626; }
+        .prose pre { background: #1f2937; color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+        .prose pre code { background: none; padding: 0; color: inherit; }
+        .prose blockquote { border-left: 4px solid #667eea; padding-left: 1rem; margin: 1rem 0; color: #6b7280; font-style: italic; }
+        .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+        .prose th { background: #f9fafb; font-weight: 600; }
+        .prose a { color: #667eea; text-decoration: underline; }
+        .prose .tip { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.25rem; margin: 1rem 0; }
+        .prose .warning { background: #fee2e2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0.25rem; margin: 1rem 0; }
+        .prose .success { background: #d1fae5; border-left: 4px solid #10b981; padding: 1rem; border-radius: 0.25rem; margin: 1rem 0; }
+        .article-card { transition: all 0.3s; }
+        .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-xl font-bold">你的工具站</span>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">首页</a>
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">我的工具</a>
+                    <a href="docs.html" class="text-gray-600 hover:text-gray-900">使用文档</a>
+                    <a href="guide.html" class="text-gray-900 font-medium">经验分享</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- 页面标题 -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4">经验分享</h1>
+            <p class="text-gray-500 text-lg">AI 工具使用技巧与实战案例</p>
+        </div>
+
+        <!-- 文章列表 -->
+        <div class="space-y-6 mb-12">
+            <div class="bg-white rounded-xl shadow p-6 article-card cursor-pointer" onclick="showArticle('prompt')">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span class="text-3xl">💡</span>
+                        <h2 class="text-xl font-bold mt-2 mb-2">提示词工程入门指南</h2>
+                        <p class="text-gray-500">掌握与 AI 高效沟通的艺术，让输出质量提升 10 倍</p>
+                    </div>
+                    <span class="text-gray-400 text-sm">5 分钟阅读</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 article-card cursor-pointer" onclick="showArticle('rpa')">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span class="text-3xl">🤖</span>
+                        <h2 class="text-xl font-bold mt-2 mb-2">RPA+AI 自动化实战</h2>
+                        <p class="text-gray-500">用影刀 + 扣子打造你的第一个智能自动化流程</p>
+                    </div>
+                    <span class="text-gray-400 text-sm">10 分钟阅读</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 article-card cursor-pointer" onclick="showArticle('wechat')">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span class="text-3xl">💬</span>
+                        <h2 class="text-xl font-bold mt-2 mb-2">微信 AI 机器人搭建教程</h2>
+                        <p class="text-gray-500">零基础打造你的私人 AI 助手，支持群聊管理</p>
+                    </div>
+                    <span class="text-gray-400 text-sm">15 分钟阅读</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 article-card cursor-pointer" onclick="showArticle('resume')">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span class="text-3xl">📄</span>
+                        <h2 class="text-xl font-bold mt-2 mb-2">AI 简历优化技巧</h2>
+                        <p class="text-gray-500">用 AI 工具让你的简历通过率提升 50%</p>
+                    </div>
+                    <span class="text-gray-400 text-sm">8 分钟阅读</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文章内容区域 -->
+        <div id="articleView" class="hidden">
+            <div class="bg-white rounded-xl shadow p-8">
+                <button onclick="closeArticle()" class="text-gray-600 hover:text-gray-900 mb-4 flex items-center">
+                    ← 返回文章列表
+                </button>
+                <div id="articleContent" class="prose max-w-none"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p class="text-center text-gray-500">© 2026 你的工具站。All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 文章内容
+        const articles = {
+            'prompt': `
+# 提示词工程入门指南
+
+> 💡 掌握与 AI 高效沟通的艺术，让输出质量提升 10 倍
+
+## 什么是提示词？
+
+提示词（Prompt）是你与 AI 模型交流的方式。一个好的提示词可以让 AI 输出更准确、更有用的结果。
+
+## 提示词的四个核心要素
+
+### 1. 角色设定
+
+告诉 AI 它应该扮演什么角色：
+
+\`\`\`
+你是一位资深的人力资源专家，擅长评估简历...
+\`\`\`
+
+### 2. 任务描述
+
+清晰地说明你要 AI 做什么：
+
+\`\`\`
+请分析这份简历，找出候选人的 3 个核心优势和 2 个需要改进的地方...
+\`\`\`
+
+### 3. 输出格式
+
+指定你期望的输出格式：
+
+\`\`\`
+请用表格形式输出，包含以下列：维度、评分（1-5 分）、评价说明...
+\`\`\`
+
+### 4. 约束条件
+
+设置必要的限制和要求：
+
+\`\`\`
+回答请控制在 500 字以内，使用专业的 HR 术语...
+\`\`\`
+
+## 完整示例
+
+### ❌ 糟糕的提示词
+
+\`\`\`
+帮我看看这份简历怎么样？
+\`\`\`
+
+### ✅ 优秀的提示词
+
+\`\`\`
+你是一位资深的人力资源专家，拥有 10 年互联网行业招聘经验。
+
+请分析我提供的简历，完成以下任务：
+1. 总结候选人的核心优势（3 点）
+2. 指出需要改进的地方（2 点）
+3. 给出与"高级前端工程师"职位的匹配度评分（1-10 分）
+
+输出要求：
+- 使用专业的 HR 术语
+- 每个要点不超过 50 字
+- 最后给出是否建议录用的结论
+\`\`\`
+
+## 进阶技巧
+
+### 少样本提示（Few-Shot Prompting）
+
+给 AI 提供几个示例，让它更好地理解你的需求：
+
+\`\`\`
+请按照以下格式分析简历：
+
+示例 1：
+输入：张三，3 年前端经验，精通 React...
+输出：
+- 优势：技术栈匹配、项目经验丰富
+- 不足：缺少团队管理经验
+- 匹配度：8/10
+
+现在请分析以下简历：
+[你的简历内容]
+\`\`\`
+
+### 思维链（Chain of Thought）
+
+让 AI 展示思考过程，提高输出质量：
+
+\`\`\`
+请一步步思考：
+1. 首先，分析候选人的技术栈...
+2. 然后，对比职位要求...
+3. 最后，给出匹配度评分...
+\`\`\`
+
+<div class="tip">
+
+**实践建议**：保存你常用的提示词模板，建立自己的提示词库！
+
+</div>
+
+## 常用提示词模板
+
+### 分析类
+
+\`\`\`
+作为 [角色]，请分析 [对象]，从 [维度 1]、[维度 2]、[维度 3] 等方面进行评估，输出 [格式]。
+\`\`\`
+
+### 创作类
+
+\`\`\`
+作为 [角色]，请为 [目标受众] 创作一篇 [类型] 内容，主题是 [主题]，风格要求 [风格]，字数 [字数]。
+\`\`\`
+
+### 改错类
+
+\`\`\`
+请检查以下内容中的错误，包括 [错误类型]，并提供修改建议。
+\`\`\`
+
+---
+
+*下一篇：[RPA+AI 自动化实战](javascript:showArticle('rpa'))*
+`,
+            'rpa': `
+# RPA+AI 自动化实战
+
+> 🤖 用影刀 + 扣子打造你的第一个智能自动化流程
+
+## 什么是 RPA？
+
+RPA（Robotic Process Automation）机器人流程自动化，可以自动执行重复性办公任务。
+
+## 为什么 RPA+AI？
+
+| 传统 RPA | RPA+AI |
+|----------|--------|
+| 只能处理结构化数据 | 可以处理文本、图片等非结构化数据 |
+| 规则固定，不够灵活 | 可以理解和推理，更智能 |
+| 异常处理能力弱 | 可以自主判断和处理异常 |
+
+## 实战：自动回复客户咨询
+
+### 场景描述
+
+自动处理微信群里的客户咨询，AI 生成回复，机器人发送。
+
+### 准备工作
+
+1. 安装影刀 RPA
+2. 注册扣子账号并创建智能体
+3. 准备一个微信测试群
+
+### 步骤 1：创建扣子智能体
+
+1. 访问扣子平台
+2. 创建新智能体
+3. 配置人设和回复逻辑
+4. 获取 API Key
+
+### 步骤 2：影刀流程设计
+
+\`\`\`
+流程开始
+    ↓
+监听微信群消息
+    ↓
+判断是否@机器人
+    ↓
+是 → 提取问题内容
+    ↓
+调用扣子 API
+    ↓
+获取 AI 回复
+    ↓
+发送到微信群
+    ↓
+流程结束
+\`\`\`
+
+### 步骤 3：配置影刀节点
+
+**HTTP 请求节点配置：**
+
+\`\`\`json
+{
+    "url": "https://api.coze.cn/v1/chat",
+    "method": "POST",
+    "headers": {
+        "Authorization": "Bearer YOUR_API_KEY",
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "bot_id": "YOUR_BOT_ID",
+        "user_id": "wechat_user",
+        "query": "${question}"
+    }
+}
+\`\`\`
+
+## 更多应用场景
+
+### 1. 自动数据录入
+
+从邮件/文档提取数据，自动录入系统。
+
+### 2. 智能客服
+
+自动回复常见问题，复杂问题转人工。
+
+### 3. 内容生成
+
+自动生成日报、周报、会议纪要。
+
+### 4. 数据分析
+
+自动收集数据，AI 分析趋势，生成报告。
+
+<div class="warning">
+
+**注意**：使用微信自动化时请遵守平台规则，避免被封号。
+
+</div>
+
+## 资源下载
+
+- [影刀 RPA 官网](https://www.yingdao.ai/)
+- [扣子平台](https://www.coze.cn/)
+- [示例流程下载](#)
+
+---
+
+*上一篇：[提示词工程入门指南](javascript:showArticle('prompt'))*
+*下一篇：[微信 AI 机器人搭建教程](javascript:showArticle('wechat'))*
+`,
+            'wechat': `
+# 微信 AI 机器人搭建教程
+
+> 💬 零基础打造你的私人 AI 助手，支持群聊管理
+
+## 效果展示
+
+搭建完成后，你的微信机器人可以：
+
+- ✅ 自动回复好友消息
+- ✅ 群聊智能问答
+- ✅ 定时推送消息
+- ✅ 关键词自动回复
+- ✅ 接入 AI 对话能力
+
+## 方案选择
+
+### 方案对比
+
+| 方案 | 难度 | 成本 | 稳定性 |
+|------|------|------|--------|
+| Wechaty | 中等 | 免费 | 较好 |
+| 微精灵 | 简单 | 付费 | 一般 |
+| 个人协议 | 困难 | 免费 | 有风险 |
+
+> 本文推荐使用 **Wechaty** 方案，开源免费且稳定。
+
+## 环境准备
+
+### 1. 安装 Node.js
+
+下载地址：https://nodejs.org/
+
+\`\`\`bash
+# 验证安装
+node -v
+npm -v
+\`\`\`
+
+### 2. 创建项目
+
+\`\`\`bash
+mkdir wechat-ai-bot
+cd wechat-ai-bot
+npm init -y
+npm install wechaty @wechaty/plugin-contrib
+\`\`\`
+
+## 代码实现
+
+### 基础机器人
+
+创建文件 \`bot.js\`：
+
+\`\`\`javascript
+const { WechatyBuilder } = require('wechaty')
+
+const bot = WechatyBuilder.build({
+    name: 'my-ai-bot',
+    puppet: 'wechaty-puppet-wechat4u'
+})
+
+bot.on('scan', (qrcode, status) => {
+    console.log(\`二维码：https://wechaty.js.org/qrcode/\${encodeURIComponent(qrcode)}\`)
+})
+
+bot.on('login', user => {
+    console.log(\`\${user.name()} 登录成功\`)
+})
+
+bot.on('message', async message => {
+    console.log(\`收到消息：\${message.text()}\`)
+
+    // 简单回复
+    if (message.text().includes('你好')) {
+        await message.say('你好呀！我是 AI 助手~')
+    }
+})
+
+bot.start()
+\`\`\`
+
+### 接入 AI
+
+修改 \`bot.js\`，接入扣子 API：
+
+\`\`\`javascript
+const axios = require('axios')
+
+async function getAIResponse(question) {
+    const response = await axios.post(
+        'https://api.coze.cn/v1/chat',
+        {
+            bot_id: 'YOUR_BOT_ID',
+            query: question
+        },
+        {
+            headers: {
+                'Authorization': 'Bearer YOUR_API_KEY'
+            }
+        }
+    )
+    return response.data.content
+}
+
+bot.on('message', async message => {
+    // 忽略自己发的消息
+    if (message.self()) return
+
+    // 群聊且被@时才回复
+    if (message.room() && await message.mentionSelf()) {
+        const question = message.text().replace(/@.*/, '').trim()
+        const answer = await getAIResponse(question)
+        await message.say(answer)
+    }
+
+    // 私聊直接回复
+    if (!message.room()) {
+        const answer = await getAIResponse(message.text())
+        await message.say(answer)
+    }
+})
+\`\`\`
+
+## 运行机器人
+
+\`\`\`bash
+node bot.js
+\`\`\`
+
+扫码登录即可！
+
+<div class="tip">
+
+**提示**：首次运行需要扫码登录，之后会保存会话。
+
+</div>
+
+## 进阶功能
+
+### 1. 群聊管理
+
+\`\`\`javascript
+// 自动欢迎新人
+bot.on('room-join', async (room, inviteeList, inviter) => {
+    const names = inviteeList.map(i => i.name()).join('、')
+    await room.say(\`欢迎 \${names} 加入本群！\`)
+})
+\`\`\`
+
+### 2. 定时任务
+
+\`\`\`javascript
+// 每天 9 点推送新闻
+const cron = require('node-cron')
+
+cron.schedule('0 9 * * *', async () => {
+    const room = await bot.Room.find({ topic: '我的群' })
+    if (room) {
+        await room.say('早安！今天是工作日，加油~')
+    }
+})
+\`\`\`
+
+### 3. 关键词回复
+
+\`\`\`javascript
+const keywords = {
+    '价格': '我们的产品价格是...',
+    '客服': '客服微信：xxx',
+    '地址': '公司地址在...'
+}
+
+bot.on('message', async message => {
+    const text = message.text()
+    for (const [key, reply] of Object.entries(keywords)) {
+        if (text.includes(key)) {
+            await message.say(reply)
+            break
+        }
+    }
+})
+\`\`\`
+
+## 注意事项
+
+<div class="warning">
+
+⚠️ 使用第三方客户端存在封号风险，请使用小号测试！
+
+</div>
+
+- 不要用于营销、骚扰
+- 遵守微信平台规则
+- 控制发送频率
+- 定期退出重登
+
+---
+
+*上一篇：[RPA+AI 自动化实战](javascript:showArticle('rpa'))*
+*下一篇：[AI 简历优化技巧](javascript:showArticle('resume'))*
+`,
+            'resume': `
+# AI 简历优化技巧
+
+> 📄 用 AI 工具让你的简历通过率提升 50%
+
+## 为什么要优化简历？
+
+根据统计，HR 平均只用 **6 秒钟** 扫视一份简历。好的简历能让你从众多求职者中脱颖而出。
+
+## AI 优化四步法
+
+### 第一步：结构优化
+
+让 AI 帮你重新组织简历结构：
+
+\`\`\`
+请分析我的简历结构，指出：
+1. 各部分顺序是否合理
+2. 哪些内容可以删减
+3. 哪些重要信息缺失
+\`\`\`
+
+### 第二步：内容精炼
+
+用 AI 精炼你的工作描述：
+
+**优化前：**
+\`\`\`
+负责开发公司官网，使用 React 框架，完成了首页、产品页、关于我们等页面，
+还做了一些性能优化工作。
+\`\`\`
+
+**优化后：**
+\`\`\`
+- 主导公司官网重构，采用 React+TypeScript 技术栈
+- 独立完成 5 个核心页面开发，包括首页、产品列表、详情页等
+- 实施性能优化，首屏加载时间从 3s 降至 1.2s
+\`\`\`
+
+### 第三步：关键词匹配
+
+针对目标职位优化关键词：
+
+\`\`\`
+我将申请 [职位名称]，这是职位描述：
+[粘贴 JD]
+
+请帮我找出应该在简历中突出的关键词。
+\`\`\`
+
+### 第四步：量化成果
+
+让 AI 帮你把模糊描述变成量化成果：
+
+| 模糊描述 | 量化描述 |
+|----------|----------|
+| 提升了系统性能 | 系统响应时间降低 40% |
+| 负责用户增长 | 3 个月内用户从 1 万增长到 5 万 |
+| 优化了代码质量 | 单元测试覆盖率从 30% 提升到 80% |
+
+## 实战示例
+
+### 使用本工具站的简历评估
+
+1. 访问 [简历评估助手](detail.html?type=resume)
+2. 上传你的简历
+3. 获取 AI 评分和建议
+4. 根据建议修改
+
+### 常见错误及修正
+
+**错误 1：职责描述像岗位 JD**
+
+❌ 负责产品需求分析、原型设计、项目推进
+
+✅ 主导 XX 产品改版，完成 20+ 功能点设计，DAU 提升 15%
+
+**错误 2：没有突出个人贡献**
+
+❌ 团队完成了 XX 项目
+
+✅ 在 XX 项目中，我负责 XX 模块，实现了 XX 效果
+
+**错误 3：技能堆砌无重点**
+
+❌ 熟练掌握 Java、Python、JavaScript、Go、C++...
+
+✅ 核心技术栈：Java(5 年)、Spring Boot、MySQL；熟悉 Python、Redis
+
+<div class="success">
+
+**提示**：简历篇幅控制在 1-2 页，重点突出最近 3 年的经历。
+
+</div>
+
+## 简历模板推荐
+
+### 简洁型（推荐）
+
+适用于大多数技术岗位。
+
+### 设计型
+
+适用于设计、产品岗位。
+
+### 学术型
+
+适用于科研、算法岗位。
+
+## 投递技巧
+
+1. **定制简历**：每个职位都微调简历
+2. **文件格式**：PDF 格式，命名：姓名_职位_年限
+3. **投递时间**：周二至周四上午 9-11 点
+4. **跟进策略**：一周后无回复可礼貌询问
+
+---
+
+*上一篇：[微信 AI 机器人搭建教程](javascript:showArticle('wechat'))*
+`,
+        };
+
+        function showArticle(id) {
+            const content = document.getElementById('articleContent');
+            content.innerHTML = marked.parse(articles[id]);
+
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.classList.add('hidden');
+            });
+            document.getElementById('articleView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeArticle() {
+            document.getElementById('articleView').classList.add('hidden');
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.classList.remove('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
