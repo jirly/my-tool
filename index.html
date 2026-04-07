@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的工具 - 工具集合</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
+        .badge-hot { background: linear-gradient(135deg, #ff6b6b, #feca57); }
+        .badge-new { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-xl font-bold">你的工具站</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-gray-900">首页</a>
+                    <a href="#" class="text-gray-900 font-medium">我的工具</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">使用文档</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">经验分享</a>
+                </div>
+                <a href="membership.html" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                    ✨ 加入会员
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-8">我的工具</h1>
+
+        <!-- 筛选标签 -->
+        <div class="mb-8">
+            <div class="flex space-x-2 mb-4 border-b pb-4">
+                <button class="px-4 py-2 rounded-lg bg-gray-900 text-white text-filter">全部</button>
+                <button class="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 text-filter">免费</button>
+                <button class="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 text-filter">会员免费</button>
+                <button class="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 text-filter">单独购买</button>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button class="px-3 py-1 rounded-full bg-gray-900 text-white text-sm category-filter">全部</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm category-filter">公众号</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm category-filter">剪映</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm category-filter">扣子</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm category-filter">微信</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm category-filter">影刀</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm category-filter">Claude</button>
+            </div>
+        </div>
+
+        <!-- 工具卡片网格 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="tools-grid">
+            <!-- 卡片 1 - 免费 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="free" data-category="全部">
+                <div class="h-32 bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">免费</span>
+                    <span class="text-4xl">🤖</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">AI 助手工具</h3>
+                    <p class="text-gray-500 text-sm mb-4">智能对话助手，帮助你解决各种问题</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">AI</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">聊天</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 2 - 会员免费 + HOT -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="vip" data-category="Claude">
+                <div class="h-32 bg-gradient-to-br from-green-400 to-green-500 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">✨ 会员免费</span>
+                    <span class="absolute top-3 right-3 badge-hot text-white text-xs px-3 py-1 rounded-full transform rotate-12">HOT</span>
+                    <span class="text-4xl">📄</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">文档分析工具</h3>
+                    <p class="text-gray-500 text-sm mb-4">批量分析文档内容，提取关键信息</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">Claude</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">分析</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 3 - 会员免费 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="vip" data-category="扣子">
+                <div class="h-32 bg-gradient-to-br from-purple-400 to-purple-500 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">✨ 会员免费</span>
+                    <span class="text-4xl">⚡</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">API 指令集</h3>
+                    <p class="text-gray-500 text-sm mb-4">丰富的 API 接口调用指令集合</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">扣子</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">API</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 4 - 免费 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="free" data-category="Pencil">
+                <div class="h-32 bg-gradient-to-br from-amber-200 to-amber-300 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">免费</span>
+                    <span class="text-4xl">✏️</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">设计规范</h3>
+                    <p class="text-gray-500 text-sm mb-4">可下载的设计规范模板</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">Claude</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">Pencil</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 5 - 单独购买 + NEW -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="paid" data-category="微信">
+                <div class="h-32 bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-gray-900 text-white text-xs px-2 py-1 rounded-full">单独购买</span>
+                    <span class="absolute top-3 right-3 badge-new text-white text-xs px-3 py-1 rounded-full transform rotate-12">NEW</span>
+                    <span class="text-4xl">💬</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">自动化指令集</h3>
+                    <p class="text-gray-500 text-sm mb-4">微信自动化操作指令集合</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">微信</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">自动化</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 6 - 免费 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="free" data-category="微信">
+                <div class="h-32 bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">免费</span>
+                    <span class="text-4xl">🤖</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">自动回复机器人</h3>
+                    <p class="text-gray-500 text-sm mb-4">智能回复消息，支持 AI 接入</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">微信</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">AI</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 7 - 会员免费 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="vip" data-category="扣子">
+                <div class="h-32 bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">✨ 会员免费</span>
+                    <span class="text-4xl">🔧</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">插件开发工作流</h3>
+                    <p class="text-gray-500 text-sm mb-4">全自动开发插件并同步到网页端</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">扣子</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">影刀</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 8 - 免费 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover transition-all duration-300 tool-card" data-type="free" data-category="OpenClaw">
+                <div class="h-32 bg-gradient-to-br from-green-300 to-green-400 flex items-center justify-center relative">
+                    <span class="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">免费</span>
+                    <span class="text-4xl">🐙</span>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">ClawBot 玩法集合</h3>
+                    <p class="text-gray-500 text-sm mb-4">在微信里与 AI 交互的各种玩法</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">OpenClaw</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded">微信</span>
+                        </div>
+                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p class="text-center text-gray-500">© 2026 你的工具站。All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 筛选功能
+        document.querySelectorAll('.text-filter').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.text-filter').forEach(b => {
+                    b.classList.remove('bg-gray-900', 'text-white');
+                    b.classList.add('bg-gray-100', 'text-gray-600');
+                });
+                this.classList.remove('bg-gray-100', 'text-gray-600');
+                this.classList.add('bg-gray-900', 'text-white');
+
+                const type = this.textContent.trim();
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    if (type === '全部' || card.dataset.type === type.toLowerCase() ||
+                        (type === '免费' && card.dataset.type === 'free') ||
+                        (type === '会员免费' && card.dataset.type === 'vip') ||
+                        (type === '单独购买' && card.dataset.type === 'paid')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 分类筛选
+        document.querySelectorAll('.category-filter').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-filter').forEach(b => {
+                    b.classList.remove('bg-gray-900', 'text-white');
+                    b.classList.add('bg-gray-100', 'text-gray-600');
+                });
+                this.classList.remove('bg-gray-100', 'text-gray-600');
+                this.classList.add('bg-gray-900', 'text-white');
+
+                const category = this.textContent.trim();
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    if (category === '全部' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

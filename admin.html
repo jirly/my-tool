@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 你的工具站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-xl font-bold"> 管理后台</span>
+                <a href="index.html" class="text-gray-600 hover:text-gray-900">← 返回首页</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-gray-500 text-sm">会员总数</p>
+                <p class="text-3xl font-bold text-purple-600" id="totalMembers">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-gray-500 text-sm">有效会员</p>
+                <p class="text-3xl font-bold text-green-600" id="activeMembers">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-gray-500 text-sm">订单总数</p>
+                <p class="text-3xl font-bold text-blue-600" id="totalOrders">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-gray-500 text-sm">总收入</p>
+                <p class="text-3xl font-bold text-orange-600">¥<span id="totalRevenue">0</span></p>
+            </div>
+        </div>
+
+        <!-- 会员列表 -->
+        <div class="bg-white rounded-xl shadow mb-8">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 class="text-xl font-bold">会员列表</h2>
+                <button onclick="loadData()" class="text-purple-600 hover:underline">刷新</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">会员 ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">支付方式</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">金额</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">开通日期</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">到期日期</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersTable" class="divide-y divide-gray-200">
+                        <tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 订单列表 -->
+        <div class="bg-white rounded-xl shadow">
+            <div class="p-6 border-b">
+                <h2 class="text-xl font-bold">订单列表</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">订单号</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">支付方式</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">金额</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">创建时间</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable" class="divide-y divide-gray-200">
+                        <tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+
+        async function loadData() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/members`);
+                const result = await response.json();
+
+                if (result.success) {
+                    renderMembers(result.members);
+                    renderOrders(result.orders);
+                    renderStats(result.members, result.orders);
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                document.getElementById('membersTable').innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-red-500">加载失败，请确保后端服务已启动</td></tr>';
+            }
+        }
+
+        function renderMembers(members) {
+            const tbody = document.getElementById('membersTable');
+            if (members.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">暂无会员数据</td></tr>';
+                return;
+            }
+
+            const now = new Date();
+            tbody.innerHTML = members.map(m => {
+                const endDate = new Date(m.endDate);
+                const isActive = m.status === 'active' && endDate > now;
+                return `
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-600">${m.id}</td>
+                        <td class="px-6 py-4 text-sm">${m.paymentMethod === 'wechat' ? '💚 微信' : '💙 支付宝'}</td>
+                        <td class="px-6 py-4 text-sm font-bold">¥${m.amount}</td>
+                        <td class="px-6 py-4 text-sm">${new Date(m.startDate).toLocaleDateString('zh-CN')}</td>
+                        <td class="px-6 py-4 text-sm">${endDate.toLocaleDateString('zh-CN')}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <span class="px-2 py-1 rounded-full text-xs ${isActive ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'}">
+                                ${isActive ? '有效' : '已过期'}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderOrders(orders) {
+            const tbody = document.getElementById('ordersTable');
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">暂无订单数据</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = orders.map(o => {
+                const statusClass = o.status === 'paid' ? 'bg-green-100 text-green-600' : o.status === 'pending' ? 'bg-yellow-100 text-yellow-600' : 'bg-red-100 text-red-600';
+                const statusText = o.status === 'paid' ? '已支付' : o.status === 'pending' ? '待支付' : '已过期';
+                return `
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-600">${o.orderId}</td>
+                        <td class="px-6 py-4 text-sm">${o.paymentMethod === 'wechat' ? '💚 微信' : '💙 支付宝'}</td>
+                        <td class="px-6 py-4 text-sm font-bold">¥${o.amount}</td>
+                        <td class="px-6 py-4 text-sm">${new Date(o.createdAt).toLocaleString('zh-CN')}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <span class="px-2 py-1 rounded-full text-xs ${statusClass}">${statusText}</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderStats(members, orders) {
+            const now = new Date();
+            const activeMembers = members.filter(m => m.status === 'active' && new Date(m.endDate) > now).length;
+            const paidOrders = orders.filter(o => o.status === 'paid');
+            const totalRevenue = paidOrders.reduce((sum, o) => sum + o.amount, 0);
+
+            document.getElementById('totalMembers').textContent = members.length;
+            document.getElementById('activeMembers').textContent = activeMembers;
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('totalRevenue').textContent = totalRevenue;
+        }
+
+        // 页面加载时获取数据
+        loadData();
+    </script>
+</body>
+</html>
