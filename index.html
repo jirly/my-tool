@@ -73,7 +73,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">AI</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">聊天</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">Claude</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">分析</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">扣子</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">API</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">Claude</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">Pencil</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">微信</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">自动化</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">微信</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">AI</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -189,7 +189,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">扣子</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">影刀</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -208,7 +208,7 @@
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">OpenClaw</span>
                             <span class="text-xs bg-gray-100 px-2 py-1 rounded">微信</span>
                         </div>
-                        <a href="#" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
+                        <a href="javascript:void(0)" onclick="randomRedirect()" class="text-orange-500 text-sm hover:underline">查看详情 →</a>
                     </div>
                 </div>
             </div>
@@ -267,6 +267,18 @@
                 });
             });
         });
+
+        // 随机跳转函数
+        function randomRedirect() {
+            const pages = [
+                'detail.html?type=resume',
+                'detail.html?type=api',
+                'detail.html?type=default',
+                'video.html'
+            ];
+            const randomPage = pages[Math.floor(Math.random() * pages.length)];
+            window.location.href = randomPage;
+        }
     </script>
 </body>
 </html>

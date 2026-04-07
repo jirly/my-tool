@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工具详情 - 你的工具站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .prose h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+        .prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+        .prose p { margin-bottom: 1rem; line-height: 1.7; }
+        .prose ul, .prose ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose code { background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; }
+        .prose pre { background: #1f2937; color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+        .prose blockquote { border-left: 4px solid #667eea; padding-left: 1rem; margin: 1rem 0; color: #6b7280; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-xl font-bold">你的工具站</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">← 返回工具列表</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div id="loading" class="text-center py-12">
+            <span class="text-4xl animate-pulse">📄</span>
+            <p class="text-gray-500 mt-4">加载文档中...</p>
+        </div>
+        <div id="content" class="hidden">
+            <!-- 文档头部 -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+                <div class="gradient-bg py-12 px-8 text-white text-center">
+                    <span class="text-6xl" id="docIcon">📝</span>
+                    <h1 class="text-3xl font-bold mt-4" id="docTitle">文档标题</h1>
+                    <p class="text-gray-200 mt-2" id="docDesc">文档描述</p>
+                </div>
+                <div class="p-8 prose max-w-none" id="docContent">
+                    <!-- Markdown 内容将渲染在这里 -->
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex justify-center space-x-4">
+                <button onclick="window.history.back()" class="bg-gray-100 text-gray-700 px-8 py-3 rounded-xl font-medium hover:bg-gray-200 transition">
+                    返回
+                </button>
+                <a href="membership.html" class="gradient-bg text-white px-8 py-3 rounded-xl font-medium hover:opacity-90 transition">
+                    开通会员使用
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p class="text-center text-gray-500">© 2026 你的工具站。All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 从 URL 参数获取文档类型
+        const urlParams = new URLSearchParams(window.location.search);
+        const docType = urlParams.get('type') || 'default';
+
+        // 文档内容配置
+        const docs = {
+            'resume': {
+                icon: '📄',
+                title: '简历评估助手',
+                desc: 'AI 驱动的简历智能评估工具',
+                content: `
+## 功能介绍
+
+简历评估助手是一款基于 AI 的简历分析工具，可以帮助你快速评估简历质量，提取关键信息。
+
+### 核心功能
+
+- **智能评分**：根据职位描述自动给简历打分
+- **优点提取**：自动识别候选人的核心优势
+- **缺点分析**：指出简历中需要改进的地方
+- **匹配度计算**：计算简历与职位的匹配程度
+
+## 使用方法
+
+1. 上传你的简历文件（支持 PDF、Word 格式）
+2. 输入目标职位的描述
+3. 点击"开始评估"
+4. 等待 AI 分析结果
+
+## 输出内容
+
+评估报告包含以下维度：
+
+| 维度 | 说明 |
+|------|------|
+| 基本信息 | 姓名、联系方式、工作年限 |
+| 技能匹配 | 与职位要求的技术栈匹配度 |
+| 项目经验 | 相关项目的深度和广度评估 |
+| 教育背景 | 学历、专业相关性分析 |
+| 综合评价 | 总体评分和建议 |
+
+## 注意事项
+
+> ⚠️ 本工具仅作为初步筛选参考，建议结合面试等环节综合评估候选人。
+
+## 技术说明
+
+本工具使用先进的 NLP 模型进行文本分析，支持中英文双语处理。
+
+\`\`\`
+支持的文件格式：
+- PDF (.pdf)
+- Word (.doc, .docx)
+- 纯文本 (.txt)
+\`\`\`
+`
+            },
+            'api': {
+                icon: '⚡',
+                title: '扣子 API 指令集',
+                desc: '丰富的 API 接口调用指令集合',
+                content: `
+## API 指令集概述
+
+本指令集提供了完整的扣子平台 API 调用能力，帮助你在影刀 RPA 流程中快速集成智能功能。
+
+### 支持的 API
+
+#### 1. 智能体对话 API
+
+调用智能体进行对话，获取 AI 回复。
+
+\`\`\`javascript
+POST /api/chat
+{
+    "agent_id": "your_agent_id",
+    "message": "用户消息",
+    "conversation_id": "会话 ID"
+}
+\`\`\`
+
+#### 2. 文件上传 API
+
+上传文件到知识库。
+
+\`\`\`javascript
+POST /api/upload
+{
+    "file": "文件内容",
+    "knowledge_base_id": "知识库 ID"
+}
+\`\`\`
+
+#### 3. 知识库查询 API
+
+查询知识库内容。
+
+\`\`\`javascript
+GET /api/knowledge/query?q=查询关键词
+\`\`\`
+
+## 使用示例
+
+### 影刀 RPA 集成
+
+1. 在影刀中创建 HTTP 请求节点
+2. 配置请求 URL 和参数
+3. 解析返回结果
+4. 根据结果执行后续操作
+
+### 代码示例
+
+\`\`\`python
+import requests
+
+response = requests.post(
+    'https://api.coze.cn/api/chat',
+    json={
+        'agent_id': '123456',
+        'message': '你好'
+    },
+    headers={'Authorization': 'Bearer YOUR_TOKEN'}
+)
+print(response.json())
+\`\`\`
+
+## 错误码说明
+
+| 错误码 | 说明 |
+|--------|------|
+| 200 | 成功 |
+| 400 | 请求参数错误 |
+| 401 | 认证失败 |
+| 429 | 请求频率超限 |
+| 500 | 服务器错误 |
+`
+            },
+            'default': {
+                icon: '🔧',
+                title: '工具详情',
+                desc: '详细了解这个工具的功能和使用方法',
+                content: `
+## 欢迎使用工具站
+
+这是一个工具集合平台，提供各种实用的 AI 工具。
+
+### 平台特色
+
+- 🚀 **开箱即用**：无需安装，网页直接使用
+- 💰 **价格实惠**：年费仅 ¥99
+- 🔄 **持续更新**：每周新增工具
+- 💬 **专属支持**：会员享受客服答疑
+
+## 如何开始
+
+1. 浏览工具列表，选择你需要的工具
+2. 点击工具卡片查看详情
+3. 如果是会员工具，开通会员后即可使用
+
+## 会员权益
+
+开通会员后，你可以：
+
+- 无限使用所有会员工具
+- 优先体验新功能
+- 获得专属客服支持
+- 享受持续的工具更新
+
+> 💡 **提示**：如有任何问题，请联系客服微信：your-wechat-id
+`
+            }
+        };
+
+        // 加载文档
+        function loadDoc() {
+            const doc = docs[docType] || docs['default'];
+
+            document.getElementById('docIcon').textContent = doc.icon;
+            document.getElementById('docTitle').textContent = doc.title;
+            document.getElementById('docDesc').textContent = doc.desc;
+            document.getElementById('docContent').innerHTML = marked.parse(doc.content);
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+        }
+
+        // 页面加载时执行
+        loadDoc();
+    </script>
+</body>
+</html>

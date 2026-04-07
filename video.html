@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放 - 你的工具站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-gray-800 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2 text-white">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-xl font-bold">你的工具站</span>
+                </a>
+                <a href="index.html" class="text-gray-300 hover:text-white transition">← 返回工具列表</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div id="loading" class="text-center py-12">
+            <span class="text-4xl animate-pulse">🎬</span>
+            <p class="text-gray-400 mt-4">加载视频中...</p>
+        </div>
+
+        <div id="videoPage" class="hidden">
+            <!-- 视频播放器 -->
+            <div class="video-container bg-black mb-6">
+                <iframe id="videoPlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <!-- 视频信息 -->
+            <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                <h1 class="text-2xl font-bold text-white mb-2" id="videoTitle">视频标题</h1>
+                <p class="text-gray-400" id="videoDesc">视频描述</p>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="window.history.back()" class="bg-gray-700 text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-600 transition">
+                    返回
+                </button>
+                <button onclick="playNext()" class="gradient-bg text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition">
+                    🔄 换一个视频
+                </button>
+                <a href="membership.html" class="gradient-bg text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition">
+                    ✨ 开通会员
+                </a>
+            </div>
+
+            <!-- 相关推荐 -->
+            <div class="mt-12">
+                <h2 class="text-xl font-bold text-white mb-6">相关工具</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="detail.html?type=resume" class="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition block">
+                        <span class="text-3xl">📄</span>
+                        <h3 class="text-white font-bold mt-2">简历评估助手</h3>
+                        <p class="text-gray-400 text-sm mt-1">AI 驱动的智能简历评估</p>
+                    </a>
+                    <a href="detail.html?type=api" class="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition block">
+                        <span class="text-3xl">⚡</span>
+                        <h3 class="text-white font-bold mt-2">扣子 API 指令集</h3>
+                        <p class="text-gray-400 text-sm mt-1">丰富的 API 调用指令</p>
+                    </a>
+                    <a href="membership.html" class="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition block">
+                        <span class="text-3xl">👑</span>
+                        <h3 class="text-white font-bold mt-2">开通会员</h3>
+                        <p class="text-gray-400 text-sm mt-1">解锁全部工具 ¥99/年</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="bg-gray-800 border-t border-gray-700 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p class="text-center text-gray-400">© 2026 你的工具站。All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 视频列表（使用 B 站和 YouTube 的嵌入视频）
+        const videos = [
+            {
+                title: 'AI 工具介绍',
+                desc: '了解如何使用 AI 工具提升工作效率',
+                // B 站视频嵌入（示例视频）
+                url: 'https://www.bilibili.com/embedded_player?bvid=BV1xx411c7mD'
+            },
+            {
+                title: '自动化办公教程',
+                desc: '使用 RPA 工具实现办公自动化',
+                url: 'https://player.bilibili.com/player.html?bvid=BV1av411276K&page=1'
+            },
+            {
+                title: 'AI 对话技巧',
+                desc: '学习如何与 AI 进行高效对话',
+                url: 'https://player.bilibili.com/player.html?bvid=BV1xF411G7zS&page=1'
+            },
+            {
+                title: '提示词工程入门',
+                desc: '掌握编写优质提示词的方法',
+                url: 'https://player.bilibili.com/player.html?bvid=BV1m84y1E7N6&page=1'
+            },
+            {
+                title: '工作效率提升指南',
+                desc: '5 个技巧让你的效率翻倍',
+                // 使用测试视频
+                url: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+            }
+        ];
+
+        let currentVideoIndex = 0;
+
+        // 加载随机视频
+        function loadRandomVideo() {
+            currentVideoIndex = Math.floor(Math.random() * videos.length);
+            updateVideo();
+        }
+
+        // 播放下一个视频
+        function playNext() {
+            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+            updateVideo();
+        }
+
+        // 更新视频
+        function updateVideo() {
+            const video = videos[currentVideoIndex];
+            document.getElementById('videoPlayer').src = video.url;
+            document.getElementById('videoTitle').textContent = video.title;
+            document.getElementById('videoDesc').textContent = video.desc;
+        }
+
+        // 页面加载
+        function initPage() {
+            // 从 URL 参数获取视频索引（如果有）
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoIndex = urlParams.get('video');
+
+            if (videoIndex !== null && !isNaN(videoIndex)) {
+                currentVideoIndex = parseInt(videoIndex) % videos.length;
+            } else {
+                currentVideoIndex = Math.floor(Math.random() * videos.length);
+            }
+
+            updateVideo();
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('videoPage').classList.remove('hidden');
+        }
+
+        initPage();
+    </script>
+</body>
+</html>
