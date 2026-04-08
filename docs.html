@@ -429,9 +429,9 @@ A:
             const headings = document.querySelectorAll('#content h2');
 
             toc.innerHTML = Array.from(headings).map(h => {
-                const id = h.textContent.trim().replace(/\\s+/g, '-');
+                const id = h.textContent.trim().replace(/\s+/g, '-');
                 h.id = id;
-                return \`<a href="#\${id}" class="block py-1 text-gray-600 hover:text-purple-600 transition">\${h.textContent}</a>\`;
+                return `<a href="#${id}" class="block py-1 text-gray-600 hover:text-purple-600 transition">${h.textContent}</a>`;
             }).join('');
         }
 

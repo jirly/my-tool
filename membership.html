@@ -9,8 +9,6 @@
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .checkmark { color: #10ac84; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .pulse { animation: pulse 2s infinite; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -25,8 +23,8 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="index.html" class="text-gray-600 hover:text-gray-900">首页</a>
                     <a href="index.html" class="text-gray-600 hover:text-gray-900">我的工具</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900">使用文档</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900">经验分享</a>
+                    <a href="docs.html" class="text-gray-600 hover:text-gray-900">使用文档</a>
+                    <a href="guide.html" class="text-gray-600 hover:text-gray-900">经验分享</a>
                 </div>
             </div>
         </div>
@@ -197,7 +195,10 @@
 
     <script>
         let currentOrderId = null;
-        const API_BASE = 'http://localhost:3000/api';
+        // 在生产环境使用相对路径，本地开发使用 localhost
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:3000/api'
+            : '/api';
 
         // 支付方式选择效果
         document.querySelectorAll('input[name="payment"]').forEach(radio => {
@@ -234,45 +235,15 @@
                     document.getElementById('orderId').textContent = currentOrderId;
                     document.getElementById('orderStatus').classList.remove('hidden');
 
-                    // 显示二维码
                     document.getElementById('qrcodeContainer').innerHTML = `
                         <img src="${result.qrcode}" alt="支付二维码" class="w-40 h-40">
                     `;
 
                     document.getElementById('paymentModal').classList.remove('hidden');
-
-                    // 开始轮询订单状态
-                    pollOrderStatus();
                 }
             } catch (error) {
-                alert('创建订单失败，请确保后端服务已启动：' + error.message);
+                alert('创建订单失败：' + error.message);
             }
-        }
-
-        // 轮询订单状态
-        function pollOrderStatus() {
-            const interval = setInterval(async () => {
-                if (!currentOrderId) {
-                    clearInterval(interval);
-                    return;
-                }
-
-                try {
-                    const response = await fetch(`${API_BASE}/query-order/${currentOrderId}`);
-                    const result = await response.json();
-
-                    if (result.success && result.order && result.order.status === 'paid') {
-                        clearInterval(interval);
-                        closePaymentModal();
-                        document.getElementById('successModal').classList.remove('hidden');
-                    }
-                } catch (error) {
-                    console.error('查询订单失败:', error);
-                }
-            }, 2000); // 每 2 秒查询一次
-
-            // 15 分钟后停止轮询
-            setTimeout(() => clearInterval(interval), 15 * 60 * 1000);
         }
 
         // 模拟支付成功
@@ -286,7 +257,7 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    closePaymentModal();
+                    document.getElementById('paymentModal').classList.add('hidden');
                     document.getElementById('successModal').classList.remove('hidden');
                 } else {
                     alert('模拟支付失败：' + result.message);
@@ -296,20 +267,15 @@
             }
         }
 
-        // 关闭支付二维码
         function closePaymentModal() {
             document.getElementById('paymentModal').classList.add('hidden');
-            currentOrderId = null;
         }
 
-        // 关闭成功弹窗
         function closeSuccessModal() {
             document.getElementById('successModal').classList.add('hidden');
-            // 跳转到首页或会员中心
             window.location.href = 'index.html';
         }
 
-        // 点击弹窗外部关闭
         document.getElementById('paymentModal').addEventListener('click', function(e) {
             if (e.target === this) closePaymentModal();
         });
